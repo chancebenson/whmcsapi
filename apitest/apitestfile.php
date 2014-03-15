@@ -6,6 +6,9 @@
 	activeOption = document.getElementById("sel").selectedIndex;
 	document.getElementById("div"+activeOption).style.display = "block";}
 	</script>
+<style type="text/css">
+	.error {color: #FF0000;}
+</style>
 </head>
 <body>
 
@@ -48,17 +51,21 @@ function test_input($data)
 	$data = htmlspecialchars($data);
 	return $data;
 }
+
 ?>
 
 <h2>API TEST VALIDATION</h2>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 	User: <input type="text" name="user">
+	<span class="error">* <?php echo $userErr;?></span>
 	<br><br>
 	Pass: <input type="password" name="pass">
+	<span class="error">* <?php echo $passErr;?></span>
 	<br><br>
 	API Key: <input type="text" name="apikey">
 	<br><br>
 	API URL: <input type="text" name="apiurl">
+	<span class="error">* <?php echo $apiurlErr;?></span>
 	<br><br>
 	API CALL: <select id="apicall" onchange="selectedChanged">
 		<option value="getadmindetails">GetAdminDetails</option>
