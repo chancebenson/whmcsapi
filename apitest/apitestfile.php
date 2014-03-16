@@ -89,8 +89,17 @@ function test_input($data)
 		<option value="getclients">GetClients</option>
 	</select>
 	<br><br>
-	<div id="addclient" style="display:none">Client First Name: </div>
-	<div id="addclient" style="display:none">Client Last Name: </div>
+	<!-- These are the additional fields for addclient API call -->
+	<div id="addclient" style="display:none">Client First Name: <input type="text" name="clientfn"></div>
+	<div id="addclient" style="display:none">Client Last Name: <input type="text" name="clientln"></div>
+	<div id="addclient" style="display:none">Client Email: <input type="text" name="clientemail"></div>
+	<div id="addclient" style="display:none">Address 1: <input type="text" name="address1"></div>
+	<div id="addclient" style="display:none">City: <input type="text" name="city"></div>
+	<div id="addclient" style="display:none">State: <input type="text" name="state"></div>
+	<div id="addclient" style="display:none">PostCode: <input type="text" name="zipcode"></div>
+	<div id="addclient" style="display:none">Country: <input type="text" name="country"></div>
+	<div id="addclient" style="display:none">PhoneNumber: <input type="text" name="phone"></div>
+	<div id="addclient" style="display:none">Password: <input type="password" name="pwd2"></div>
 	<input type="submit" name="submit" value="Test The API">
 </form>
 
@@ -143,7 +152,32 @@ if ($apicall = "getadmindetails") {
 	$query_string .= "$k".urlencode($v)."&";
 } }
 
+if ($apicall = "addclient") {
+	
+	$url = "$apiurl";
+	//$apikey = "$apikey"; // I will uncomment once I add this in
 
+	$postfields = array();
+	$postfields["username"] = $user;
+	$postfields["password"] = md5($pass);
+	$postfields["action"] = "addclient";
+	$postfields["firstname"] = "$clientfn";
+	$postfields["lastname"] = "$clientln";
+	$postfields["email"] = "$clientemail";
+	$postfields["address1"] = "$address1";
+	$postfields["city"] = "$city";
+	$postfields["state"] = "$state";
+	$postfields["postcode"] = "$zipcode";
+	$postfields["country"] = "$country";
+	$postfields["phonenumber"] = "$phone";
+	$postfields["password2"] = "$pwd2";
+	$postfields["currency"] = "1"; // adding this manually as everyone should be on the base currency
+	$postfields["responsetype"] = "json";
+
+	$query_string = "";
+	foreach ($postfields as $k => $v) {
+	$query_string .="$k".urlencode($v)."&";
+} }
 
 
 $ch = curl_init();
