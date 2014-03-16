@@ -6,7 +6,7 @@
 		// Lets use jquery since its very cross platform
 		$(document).ready(function(){
 			$('#apicall').change(function(){
-				activeOption = document.getElementById("sel").value;
+				activeOption = document.getElementById("apicall").value;
 				document.getElementById("div"+activeOption).style.display = "block";
 			});
 		});
