@@ -96,7 +96,7 @@ function test_input($data)
 
 
 <?php
-if ($userErr == null) {
+if ($userErr != null) {
 	die;
 	// No reason to continue if we had an error
 }
