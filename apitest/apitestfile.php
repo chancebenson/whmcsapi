@@ -67,13 +67,15 @@ function test_input($data)
 	API URL: <input type="text" name="apiurl">
 	<span class="error">* <?php echo $apiurlErr;?></span>
 	<br><br>
-	API CALL: <select id="apicall" onchange="selectedChanged">
+	API CALL: <select id="apicall" onchange="selectedChanged"> <!-- Make sure to keep them alphabetic just cause lol -->
+		<option value = "">-- Select A Call --</option>
+		<option value="addclient">AddClient</opton>
 		<option value="getadmindetails">GetAdminDetails</option>
 		<option value="getclients">GetClients</option>
 	</select>
 	<br><br>
-	<div id="div0" style="display:none">Testing Field 1</div>
-	<div id="div1" style="display:none">Testing Field 2</div>
+	<div id="addclient" style="display:none">Client First Name: </div>
+	<div id="addclient" style="display:none">Client Last Name: </div>
 	<input type="submit" name="submit" value="Test The API">
 </form>
 
@@ -85,7 +87,7 @@ echo "<br>";
 echo $apikey;
 echo "<br>";
 echo $apiurl;
-//echo "<br>";
+//echo "<br>"; // Commented this out, seems redundant when the stuff below shows it as well
 //echo $apicall;
 ?>
 
@@ -111,7 +113,17 @@ if ($apicall = "getadmindetails") {
 	$url = "$apiurl";
 	//$apikey = "$apikey"; // I will uncomment once I fix this
 
-}
+	$postfields = array();
+	$postfields["username"] = $user;
+	$postfields["password"] = md5($pass);
+	$postfields["action"] = "getadmindetails";
+	$postfields["responsetype"] = "json";
+
+	$query_string = "";
+	foreach ($postfields as $k => $v) {
+	$query_string .= "$k".urlencode($v)."&";
+} }
+
 
 
 
