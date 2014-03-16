@@ -1,10 +1,15 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<script type="javascript">
-	function selectChanged(){
-	activeOption = document.getElementById("sel").selectedIndex;
-	document.getElementById("div"+activeOption).style.display = "block";}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script type="text/javascript">
+		// Lets use jquery since its very cross platform
+		$(document).ready(function(){
+			$('#apicall').change(function(){
+				activeOption = document.getElementById("sel").selectedIndex;
+				document.getElementById("div"+activeOption).style.display = "block";
+			});
+		});
 	</script>
 <style type="text/css">
 	.error {color: #FF0000;}
@@ -14,16 +19,26 @@
 
 <?php	
 
-/* Use this if putting in your WHMCS directory
+/* Use this if putting in your WHMCS directory 
 
-if(file_exists("init.php")) require("init.php");
-elseif(file_exists("../init.php")) require("../init.php");
-else echo "Init Not Found";
-*/
+if(file_exists("init.php")) {
+	// Always use require once to avoid conflicts
+	require_once("init.php");
+} elseif(file_exists("../init.php")) {
+	// Same as above
+	require_once("../init.php");
+} else {
+	// Die, it was required
+	die("Init Not Found");
+/* */
 
 // define vars and set to empty values
-$userErr = $passErr = $apiurlErr = "";
-$user = $apikey = $apiurl = "";
+$userErr = null;
+$passErr = null;
+$apiurlErr = null;
+$user = null;
+$apikey = null;
+$apiurl = null;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
@@ -67,7 +82,7 @@ function test_input($data)
 	API URL: <input type="text" name="apiurl">
 	<span class="error">* <?php echo $apiurlErr;?></span>
 	<br><br>
-	API CALL: <select id="apicall" onchange="selectChanged"> <!-- Make sure to keep them alphabetic just cause lol -->
+	API CALL: <select id="apicall"> <!-- Make sure to keep them alphabetic just cause lol -->
 		<option value = "" selected>-- Select A Call --</option>
 		<option value="addclient">AddClient</opton>
 		<option value="getadmindetails">GetAdminDetails</option>
@@ -81,6 +96,10 @@ function test_input($data)
 
 
 <?php
+if ($userErr == null) {
+	die;
+	// No reason to continue if we had an error
+}
 echo "<h2>Your Values:</h2>";
 echo $user;
 echo "<br>";
