@@ -4,13 +4,19 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<script type="text/javascript">
 		// Lets use jquery since its very cross platform
-		$(document).ready(function(){
-			$('#apicall').change(function(){
-				activeOption = document.getElementById("div").value;
-				document.getElementById("div"+activeOption).style.display = "block";
-			});
-		});
+		
+		$("#apicall").change(function() {
+			apicall = $("option:selected", this).text();
+			if (apicall=="addclient") {
+				$("#addclientfields").css();
+				$("#apicallnone").css("display","none");
+			} elseif {
+				$("#apicalladdclient").css("display","");
+				$("apicallnone").css("display","");
+			}
+		}
 	</script>
+	
 <style type="text/css">
 	.error {color: #FF0000;}
 </style>
@@ -83,23 +89,25 @@ function test_input($data)
 	<span class="error">* <?php echo $apiurlErr;?></span>
 	<br><br>
 	API CALL: <select id="apicall"> <!-- Make sure to keep them alphabetic just cause lol -->
-		<option value = "" selected>-- Select A Call --</option>
+		<option value="none" selected>-- Select A Call --</option>
 		<option value="addclient">AddClient</opton>
 		<option value="getadmindetails">GetAdminDetails</option>
 		<option value="getclients">GetClients</option>
 	</select>
 	<br><br>
 	<!-- These are the additional fields for addclient API call -->
-	<div id="addclient" style="display:none">Client First Name: <input type="text" name="clientfn"></div>
-	<div id="addclient" style="display:none">Client Last Name: <input type="text" name="clientln"></div>
-	<div id="addclient" style="display:none">Client Email: <input type="text" name="clientemail"></div>
-	<div id="addclient" style="display:none">Address 1: <input type="text" name="address1"></div>
-	<div id="addclient" style="display:none">City: <input type="text" name="city"></div>
-	<div id="addclient" style="display:none">State: <input type="text" name="state"></div>
-	<div id="addclient" style="display:none">PostCode: <input type="text" name="zipcode"></div>
-	<div id="addclient" style="display:none">Country: <input type="text" name="country"></div>
-	<div id="addclient" style="display:none">PhoneNumber: <input type="text" name="phone"></div>
-	<div id="addclient" style="display:none">Password: <input type="password" name="pwd2"></div>
+	<div id="addclientfields" style="display:none">
+		<p>Client First Name: <input type="text" name="clientfn"></p>
+		<p>Client Last Name: <input type="text" name="clientln"></p>
+		<p>Client Email: <input type="text" name="clientemail"></p>
+		<p>Address 1: <input type="text" name="address1"></p>
+		<p>City: <input type="text" name="city"></p>
+		<p>State: <input type="text" name="state"></p>
+		<p>PostCode: <input type="text" name="zipcode"></p>
+		<p>Country: <input type="text" name="country"></p>
+		<p>PhoneNumber: <input type="text" name="phone"></p>
+		<p>Password: <input type="password" name="pwd2"></p>
+	</div>
 	<input type="submit" name="submit" value="Test The API">
 </form>
 
@@ -123,11 +131,11 @@ echo $apiurl;
 if ($apicall == "getclients") {
 	
 	$url = "$apiurl";
-	//$apikey = "$apikey";  // I will uncomment once I fix this
-
+	
 	$postfields = array();
 	$postfields["username"] = $user;
 	$postfields["password"] = md5($pass);
+	$postfields["accesskey"] = $apikey;
 	$postfields["action"] = "getclients";
 	$postfields["responsetype"] = "json";
 
@@ -139,11 +147,11 @@ if ($apicall == "getclients") {
 if ($apicall == "getadmindetails") {
 	
 	$url = "$apiurl";
-	//$apikey = "$apikey"; // I will uncomment once I fix this
-
+	
 	$postfields = array();
 	$postfields["username"] = $user;
 	$postfields["password"] = md5($pass);
+	$postfields["accesskey"] = $apikey;
 	$postfields["action"] = "getadmindetails";
 	$postfields["responsetype"] = "json";
 
@@ -155,11 +163,11 @@ if ($apicall == "getadmindetails") {
 if ($apicall == "addclient") {
 	
 	$url = "$apiurl";
-	//$apikey = "$apikey"; // I will uncomment once I add this in
-
+	
 	$postfields = array();
 	$postfields["username"] = $user;
 	$postfields["password"] = md5($pass);
+	$postfields["accesskey"] = $apikey;
 	$postfields["action"] = "addclient";
 	$postfields["firstname"] = "$clientfn";
 	$postfields["lastname"] = "$clientln";
