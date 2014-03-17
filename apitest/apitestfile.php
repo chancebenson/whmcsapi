@@ -5,16 +5,12 @@
 	<script type="text/javascript">
 		// Lets use jquery since its very cross platform
 		
-		$("#apicall").change(function() {
-			apicall = $("option:selected", this).text();
-			if (apicall=="addclient") {
-				$("#addclientfields").css();
-				$("#apicallnone").css("display","none");
-			} elseif {
-				$("#apicalladdclient").css("display","");
-				$("apicallnone").css("display","");
-			}
-		}
+		$(document).ready(function(){
+ 			$('#apicall').change(function(){
+ 				activeOption = document.getElementById("div").value;
+ 				document.getElementById("div"+activeOption).style.display = "block";
+ 			});
+ 		});
 	</script>
 	
 <style type="text/css">
@@ -96,7 +92,7 @@ function test_input($data)
 	</select>
 	<br><br>
 	<!-- These are the additional fields for addclient API call -->
-	<div id="addclientfields" style="display:none">
+	<div id="clientfields" style="display:none">
 		<p>Client First Name: <input type="text" name="clientfn"></p>
 		<p>Client Last Name: <input type="text" name="clientln"></p>
 		<p>Client Email: <input type="text" name="clientemail"></p>
