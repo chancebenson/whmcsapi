@@ -119,8 +119,8 @@ echo "<br>";
 echo $apikey;
 echo "<br>";
 echo $apiurl;
-//echo "<br>"; // Commented this out, seems redundant when the stuff below shows it as well
-//echo $apicall;
+echo "<br>"; // Commented this out, seems redundant when the stuff below shows it as well
+echo $apicall;
 ?>
 
 <?php
