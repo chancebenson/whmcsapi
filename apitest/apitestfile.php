@@ -35,12 +35,13 @@ if(file_exists("init.php")) {
 /* */
 
 // define vars and set to empty values
-$userErr = null;
+/*$userErr = null;
 $passErr = null;
 $apiurlErr = null;
 $user = null;
 $apikey = null;
 $apiurl = null;
+*/
 
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
