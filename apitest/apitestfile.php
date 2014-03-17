@@ -6,7 +6,7 @@
 		// Lets use jquery since its very cross platform
 		$(document).ready(function(){
 			$('#apicall').change(function(){
-				activeOption = document.getElementById("apicall").value;
+				activeOption = document.getElementById("div").value;
 				document.getElementById("div"+activeOption).style.display = "block";
 			});
 		});
@@ -120,7 +120,7 @@ echo $apiurl;
 ?>
 
 <?php
-if ($apicall = "getclients") {
+if ($apicall == "getclients") {
 	
 	$url = "$apiurl";
 	//$apikey = "$apikey";  // I will uncomment once I fix this
@@ -136,7 +136,7 @@ if ($apicall = "getclients") {
 	$query_string .= "$k=".urlencode($v)."&";
 } }
 
-if ($apicall = "getadmindetails") {
+if ($apicall == "getadmindetails") {
 	
 	$url = "$apiurl";
 	//$apikey = "$apikey"; // I will uncomment once I fix this
@@ -152,7 +152,7 @@ if ($apicall = "getadmindetails") {
 	$query_string .= "$k".urlencode($v)."&";
 } }
 
-if ($apicall = "addclient") {
+if ($apicall == "addclient") {
 	
 	$url = "$apiurl";
 	//$apikey = "$apikey"; // I will uncomment once I add this in
