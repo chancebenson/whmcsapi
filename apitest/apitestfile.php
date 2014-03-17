@@ -4,13 +4,17 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<script type="text/javascript">
 		// Lets use jquery since its very cross platform
-
- 		$(document).ready(function(){
-  			$('#apicall').change(function(){
-				activeOption = document.getElementById("sel").value;
-  				document.getElementById("div"+activeOption).style.display = "block";
-  			});
-  		});
+		
+		$("#apicall").change(function() {
+			apicall = $("option:selected", this).text();
+			if (apicall=="addclient") {
+				$("#addclientfields").css();
+				$("#apicallnone").css("display","none");
+			} elseif {
+				$("#apicalladdclient").css("display","");
+				$("apicallnone").css("display","");
+			}
+		}
 	</script>
 	
 <style type="text/css">
