@@ -1,23 +1,31 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<title>WHMCS API Test Script</title>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<script type="text/javascript">
 		// Lets use jquery since its very cross platform
-		
-		$(document).ready(function(){
- 			$('#apicall').change(function(){
- 				//activeOption = document.getElementById("#apicall option:selected");
- 				activeOption = $("#apicall option:selected").val();
- 				alert (activeOption);
- 				document.getElementById("div"+activeOption).style.display = "block";
- 			});
- 		});
-	</script> -->
+		$(document).ready(function() {
+			$('.clientfields').hide();
+			$('.div3').hide();
+
+			$('#apicall').change(function() {
+				if ($('#apicall option:selected').text() == "addclient"){
+					$('.div2').show();
+					$('.div3').hide();
+				}
+				else if ($('#apicall option:selected').text() == "getclientsproducts" {
+					$('.div2').hide();
+					$('.div3').show();
+				}
+			});
+		});
 	
+	</script>
 <style type="text/css">
 	.error {color: #FF0000;}
 </style>
+</head>
 </head>
 <body>
 
@@ -84,14 +92,14 @@ function test_input($data)
 	<span class="error">* <?php echo $apiurlErr;?></span>
 	<br><br>
 	API CALL: <select id="apicall"> <!-- Make sure to keep them alphabetic just cause lol -->
-		<option value = "">-- Select A Call --</option>
+		<option value = "" selected>-- Select A Call --</option>
 		<option value = "addclient">AddClient</option>
 		<option value = "getadmindetails">GetAdminDetails</option>
 		<option value = "getclients">GetClients</option>
 	</select>
 	<br><br>
 	<!-- These are the additional fields for addclient API call -->
-	<!--<div id="clientfields" style="display:none">
+	<div id="clientfields" style="display:none">
 		<p>Client First Name: <input type="text" name="clientfn"></p>
 		<p>Client Last Name: <input type="text" name="clientln"></p>
 		<p>Client Email: <input type="text" name="clientemail"></p>
@@ -102,7 +110,7 @@ function test_input($data)
 		<p>Country: <input type="text" name="country"></p>
 		<p>PhoneNumber: <input type="text" name="phone"></p>
 		<p>Password: <input type="password" name="pwd2"></p>
-	</div>-->
+	</div>
 	<input type="submit" name="submit" value="Test The API">
 </form>
 
