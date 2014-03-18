@@ -122,6 +122,7 @@ $ch = curl_init();
  if (curl_error($ch) || !$xml) $xml = '<whmcsapi><result>error</result>'.
  	'<message>Connection Error</message><curlerror>'.
  curl_errno($ch).' - '.curl_error($ch).'</curlerror></whmcsapi>';
+ var_dump(curl_getinfo($ch));
  curl_close($ch);
 
  $arr = whmcsapi_xml_parser($xml); # Parse XML
