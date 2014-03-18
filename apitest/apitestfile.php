@@ -85,7 +85,7 @@ function test_input($data)
 	<br><br>
 	API CALL: <select id="apicall"> <!-- Make sure to keep them alphabetic just cause lol -->
 		<option value = "">-- Select A Call --</option>
-		<option value = "addclient">AddClient</opton>
+		<option value = "addclient">AddClient</option>
 		<option value = "getadmindetails">GetAdminDetails</option>
 		<option value = "getclients">GetClients</option>
 	</select>
