@@ -6,21 +6,23 @@
 	<script type="text/javascript">
 		// Lets use jquery since its very cross platform
 		$(document).ready(function() {
+			
 			$('.clientfields').hide();
-			$('.div3').hide();
+			$('.clientproductfields').hide();
 
-			$('#apicall').change(function() {
-				if ($('#apicall option:selected').text() == "addclient"){
-					$('.div2').show();
-					$('.div3').hide();
+			$('#api').change(function () {
+				if ($('#api option:selected').text() == "addclient")
+				{
+					$('.clientfields').show();
+					$('.clientproductfields').hide();
 				}
-				else if ($('#apicall option:selected').text() == "getclientsproducts" {
-					$('.div2').hide();
-					$('.div3').show();
+				else if ($('#api option:selected').text() == "getclientsproducts" 
+				{
+					$('.clientfields').hide();
+					$('.clientproductfields').show();
 				}
 			});
 		});
-	
 	</script>
 <style type="text/css">
 	.error {color: #FF0000;}
@@ -52,20 +54,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
 	if (empty($_POST["user"]))
 		{$userErr = "User is required";}
-	else {$user = test_input ($_POST["user"]);}
+	else 
+		{$user = test_input($_POST["user"]);}
 	if (empty($_POST["pass"]))
 		{$passErr = "Password is required";}
-	else {$pass = test_input ($_POST["pass"]);}
+	else 
+		{$pass = test_input($_POST["pass"]);}
 	if (empty($_POST["apikey"]))
 		{$apikey = "";}
-	else {$apikey = test_input ($_POST["apikey"]);}
+	else 
+		{$apikey = test_input($_POST["apikey"]);}
 	if (empty($_POST["apiurl"]))
 		{$apiurlErr = "API URL is required";}
-	else {$apiurl = test_input ($_POST["apiurl"]);}
-	if (empty($_POST["apicall"])) 
-		{$apicall = "";}
-	else {$apicall = test_input ($_POST["apicall"]);}
-
+	else 
+		{$apiurl = test_input($_POST["apiurl"]);}
+	if (empty($_POST["api"])) 
+		{$api = "";}
+	else 
+		{$api = test_input($_POST["api"]);}
 }
 
 function test_input($data)
@@ -75,10 +81,10 @@ function test_input($data)
 	$data = htmlspecialchars($data);
 	return $data;
 }
-
 ?>
 
 <h2>API TEST VALIDATION</h2>
+<p><span class="error">* required field.</span></p>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 	User: <input type="text" name="user" value="<?php echo $user;?>">
 	<span class="error">* <?php echo $userErr;?></span>
@@ -91,35 +97,32 @@ function test_input($data)
 	API URL: <input type="text" name="apiurl" value="<?php echo $apiurl;?>">
 	<span class="error">* <?php echo $apiurlErr;?></span>
 	<br><br>
-	API CALL: <select id="apicall"> <!-- Make sure to keep them alphabetic just cause lol -->
-		<option value = "" selected>-- Select A Call --</option>
-		<option value = "addclient">AddClient</option>
-		<option value = "getadmindetails">GetAdminDetails</option>
-		<option value = "getclients">GetClients</option>
-	</select>
+	<div class="apicall">
+		<label class="apicall">API CALL: </label>
+		<select id="api"> <!-- Make sure to keep them alphabetic just cause lol -->
+			<option value = "none" selected>-- Select A Call --</option>
+			<option value = "addclient">Add Client</option>
+			<option value = "getadmindetails">Get Admin Details</option>
+			<option value = "getclients">Get Clients</option>
+			<option value = "getclientsproducts">Get Clients Products</option>
+	</div>
+	<div class="clientfields">
+		<label class="clientfn">Client First Name: </label>
+		<input type="text" name="clientfn" class="clientfn">
+		<label class="clienln">Client Last Name: </label>
+		<input type="text" name="clientln" class="clientln">
+	</div>
+	<div class="clientproductfields">
+		<p>Stuff here: <input type="text" name="stuff"></p>
+	</div>
 	<br><br>
 	<!-- These are the additional fields for addclient API call -->
-	<div id="clientfields" style="display:none">
-		<p>Client First Name: <input type="text" name="clientfn"></p>
-		<p>Client Last Name: <input type="text" name="clientln"></p>
-		<p>Client Email: <input type="text" name="clientemail"></p>
-		<p>Address 1: <input type="text" name="address1"></p>
-		<p>City: <input type="text" name="city"></p>
-		<p>State: <input type="text" name="state"></p>
-		<p>PostCode: <input type="text" name="zipcode"></p>
-		<p>Country: <input type="text" name="country"></p>
-		<p>PhoneNumber: <input type="text" name="phone"></p>
-		<p>Password: <input type="password" name="pwd2"></p>
-	</div>
+	
 	<input type="submit" name="submit" value="Test The API">
 </form>
 
 
 <?php
-/*if ($userErr != null) {
-	die;
-	// No reason to continue if we had an error
-} */
 echo "<h2>Your Values:</h2>";
 echo $user;
 echo "<br>";
@@ -127,11 +130,11 @@ echo $apikey;
 echo "<br>";
 echo $apiurl;
 echo "<br>"; // Commented this out, seems redundant when the stuff below shows it as well
-echo $apicall;
+echo $api;
 ?>
 
 <?php
-if ($apicall == "getclients") {
+if ($api == "getclients") {
 	
 	$url = "$apiurl";
 	
@@ -146,7 +149,7 @@ if ($apicall == "getclients") {
 	foreach ($postfields as $k=>$v) $query_string .= "$k=".urlencode($v)."&";
 }
 
-if ($apicall == "getadmindetails") {
+if ($api == "getadmindetails") {
 	
 	$url = "$apiurl";
 	
@@ -158,10 +161,10 @@ if ($apicall == "getadmindetails") {
 	$postfields["responsetype"] = "xml";
 
 	$query_string = "";
-	foreach ($postfields as $k => $v) $query_string .= "$k".urlencode($v)."&";
+	foreach ($postfields as $k=>$v) $query_string .= "$k".urlencode($v)."&";
 }
 
-if ($apicall == "addclient") {
+if ($api == "addclient") {
 	
 	$url = "$apiurl";
 	
@@ -184,10 +187,9 @@ if ($apicall == "addclient") {
 	$postfields["responsetype"] = "xml";
 
 	$query_string = "";
-	foreach ($postfields as $k => $v) $query_string .="$k".urlencode($v)."&";
+	foreach ($postfields as $k=>$v) $query_string .="$k".urlencode($v)."&";
 }
 
-//die("'$query_string'");
 
 $ch = curl_init();
  curl_setopt($ch, CURLOPT_URL, $url);
@@ -242,9 +244,6 @@ function whmcsapi_xml_parser($rawxml) {
  	}
  	return($params);
  }
-
- ?>
-
+?>
 
 </body>
-
