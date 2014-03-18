@@ -7,19 +7,18 @@
         // Lets use jquery since its very cross platform
         $(document).ready(function() {
             
-            $('.clientfields').hide();
-            $('.clientproductfields').hide();
-
-            $('#api').change(function () {
-                if ($('#api option:selected').text() == "addclient")
-                {
-                    $('.clientfields').show();
-                    $('.clientproductfields').hide();
-                }
-                else if ($('#api option:selected').text() == "getclientsproducts") 
-                {
-                    $('.clientfields').hide();
-                    $('.clientproductfields').show();
+            $('#clientfields').hide();
+            $('#clientproductfields').hide();
+            $(document).on("change","#api",function() {
+                if ($("#api").val() == "addclient"){
+                    $('#clientfields').show();
+                    $('#clientproductfields').hide();
+                } else if ($("#api").val() == "getclientsproducts"){
+                    $('#clientfields').hide();
+                    $('#clientproductfields').show();
+                } else {
+                    $('#clientfields').hide();
+                    $('#clientproductfields').hide();
                 }
             });
         });
@@ -87,20 +86,21 @@ function test_input($data) {
     <br><br>
     <div class="apicall">
         <label class="apicall">API CALL: </label>
-        <select id="api"> <!-- Make sure to keep them alphabetic just cause lol -->
+        <select id="api" name="api"> <!-- Make sure to keep them alphabetic just cause lol -->
             <option value = "none" selected>-- Select A Call --</option>
             <option value = "addclient">Add Client</option>
             <option value = "getadmindetails">Get Admin Details</option>
             <option value = "getclients">Get Clients</option>
             <option value = "getclientsproducts">Get Clients Products</option>
+        </select>
     </div>
-    <div class="clientfields">
+    <div id="clientfields">
         <label class="clientfn">Client First Name: </label>
         <input type="text" name="clientfn" class="clientfn">
         <label class="clienln">Client Last Name: </label>
         <input type="text" name="clientln" class="clientln">
     </div>
-    <div class="clientproductfields">
+    <div id="clientproductfields">
         <p>Stuff here: <input type="text" name="stuff"></p>
     </div>
     <br><br>
