@@ -97,14 +97,25 @@ if ($apicall = "getclients") {
 
 	$query_string = "";
 	foreach ($postfields as $k => $v) {
-	$query_string .= "$k=".urlencode($v)."&";
-} }
+		$query_string .= "$k=".urlencode($v)."&";
+	} 
+}
 
 if ($apicall = "getadmindetails") {
 
 	$url = "$apiurl";
-	//$apikey = "$apikey"; // I will uncomment once I fix this
+	
+	$postfields = array();
+	$postfields["username"] = $user;
+	$postfields["password"] = md5($pass);
+	$postfields["accesskey"] = $apikey;
+	$postfields["action"] = "getadmindetails";
+	$postfields["responsetype"] = "json";
 
+	$query_string = "";
+	foreach ($postfields as $k=>$v) {
+		$query_string .= "$k".urlencode($v)."&";
+	}
 }
 
 $ch = curl_init();
