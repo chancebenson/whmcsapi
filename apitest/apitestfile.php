@@ -201,7 +201,7 @@ $ch = curl_init();
  print_r($arr); # Output XML Response as Array
 
  echo "<textarea rows=50 cols=100>Request: ".print_r($postfields,true);
- echo "\nResponse: ".htmlentities($jsondata). "\n\nArray: ".print_r($arr,true);
+ echo "\nResponse: ".htmlentities($xml). "\n\nArray: ".print_r($arr,true);
  echo "</textarea>";
 
 function whmcsapi_xml_parser($rawxml) {
@@ -239,4 +239,4 @@ function whmcsapi_xml_parser($rawxml) {
 
 
 </body>
-</head>
+
