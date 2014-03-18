@@ -16,7 +16,7 @@
 					$('.clientfields').show();
 					$('.clientproductfields').hide();
 				}
-				else if ($('#api option:selected').text() == "getclientsproducts" 
+				else if ($('#api option:selected').text() == "getclientsproducts") 
 				{
 					$('.clientfields').hide();
 					$('.clientproductfields').show();
