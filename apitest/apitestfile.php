@@ -84,7 +84,7 @@ function test_input($data)
 	<span class="error">* <?php echo $apiurlErr;?></span>
 	<br><br>
 	API CALL: <select id="apicall"> <!-- Make sure to keep them alphabetic just cause lol -->
-		<option value = "" selected>-- Select A Call --</option>
+		<option value = "">-- Select A Call --</option>
 		<option value = "addclient">AddClient</opton>
 		<option value = "getadmindetails">GetAdminDetails</option>
 		<option value = "getclients">GetClients</option>
