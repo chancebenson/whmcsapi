@@ -108,7 +108,7 @@ if ($apicall == "getadmindetails") {
 	foreach ($postfields as $k => $v) $query_string .= "$k".urlencode($v)."&";
 }
 
-die("'$query_string'");
+//die("'$query_string'");
 
 $ch = curl_init();
  curl_setopt($ch, CURLOPT_URL, $url);
