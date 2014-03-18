@@ -57,8 +57,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($_POST["apikey"])) $apikey = test_input ($_POST["apikey"]);
     if (empty($_POST["apiurl"])) $apiurlErr = "API URL is required";
     else $apiurl = (($_POST["apiurltype"]=="https") ? "https://" : "http://") .test_input ($_POST["apiurl"]);
-    if (empty($_POST["apicall"])) $apicall = "";
-    else $apicall = test_input ($_POST["apicall"]);
+    if (empty($_POST["api"])) $api = "";
+    else $api = test_input ($_POST["api"]);
 }
 
 function test_input($data) {
@@ -67,6 +67,8 @@ function test_input($data) {
     $data = htmlspecialchars($data);
     return $data;
 }
+
+foreach ($_REQUEST as $k=>$v) $$k = $v;
 ?>
 
 <h2>API TEST VALIDATION</h2>
@@ -81,7 +83,7 @@ function test_input($data) {
     API Key: <input type="text" name="apikey" value="<?php echo $apikey;?>">
     <br><br>
     API URL: <select id="apiurltype" name="apiurltype"><option value = "https">https://</option>
-        <option value = "http">http://</option></select><input type="text" name="apiurl" value="<?php echo $apiurl;?>">
+        <option value = "http">http://</option></select><input type="text" name="apiurl">
     <span class="error">* <?php echo $apiurlErr;?></span>
     <br><br>
     <div class="apicall">
@@ -97,8 +99,33 @@ function test_input($data) {
     <div id="clientfields">
         <label class="clientfn">Client First Name: </label>
         <input type="text" name="clientfn" class="clientfn">
+        <br>
         <label class="clienln">Client Last Name: </label>
         <input type="text" name="clientln" class="clientln">
+        <br>
+        <label class="email">Client Email: </label>
+        <input type="text" name="clientemail" class="clientemail">
+        <br>
+        <label class="address1">Address 1: </label>
+        <input type="text" name="address1" class="address1">
+        <br>
+        <label class="city">City: </label>
+        <input type="text" name="city" class="city">
+        <br>
+        <label class="state">State: </label>
+        <input type="text" name="state" class="state">
+        <br>
+        <label class="postcode">ZipCode: </label>
+        <input type="text" name="postcode" class="postcode">
+        <br>
+        <label class="country">Country: </label>
+        <input type="text" name="country" class="country" value="2 letter ISO code">
+        <br>
+        <label class="phonenumber">Phone: </label>
+        <input type="text" name="phonenumber" class="phonenumber">
+        <br>
+        <label class="password2">Password: </label>
+        <input type="text" name="password2" class="password2">
     </div>
     <div id="clientproductfields">
         <p>Stuff here: <input type="text" name="stuff"></p>
@@ -109,7 +136,6 @@ function test_input($data) {
     <input type="submit" name="submit" value="Test The API">
 </form>
 
-
 <?php
 echo "<h2>Your Values:</h2>";
 echo $user;
@@ -117,8 +143,8 @@ echo "<br>";
 echo $apikey;
 echo "<br>";
 echo $apiurl;
-echo "<br>"; // Commented this out, seems redundant when the stuff below shows it as well
-echo $api;
+echo "<br>"; 
+//echo $api; // Commented this out, seems redundant when the stuff below shows it as well
 ?>
 
 <?php
@@ -167,10 +193,10 @@ if ($api == "addclient") {
     $postfields["address1"] = "$address1";
     $postfields["city"] = "$city";
     $postfields["state"] = "$state";
-    $postfields["postcode"] = "$zipcode";
+    $postfields["postcode"] = "$postcode";
     $postfields["country"] = "$country";
-    $postfields["phonenumber"] = "$phone";
-    $postfields["password2"] = "$pwd2";
+    $postfields["phonenumber"] = "$phonenumber";
+    $postfields["password2"] = "$password2";
     $postfields["currency"] = "1"; // adding this manually as everyone should be on the base currency
     $postfields["responsetype"] = "xml";
 
