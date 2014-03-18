@@ -38,7 +38,7 @@ if(file_exists("init.php")) {
 
 // define vars and set to empty values
 $userErr = $passErr = $apiurlErr = "";
-$user = $pass = $apikey = $apiurl = $apicall = "";
+$user = $pass = $apikey = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
