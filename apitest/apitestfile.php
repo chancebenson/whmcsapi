@@ -48,6 +48,7 @@ if(file_exists("init.php")) {
 // define vars and set to empty values
 $userErr = $passErr = $apiurlErr = "";
 $user = $pass = $apikey = "";
+$error = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($_POST["user"])) $userErr = "User is required";
@@ -137,75 +138,41 @@ foreach ($_REQUEST as $k=>$v) $$k = $v;
 </form>
 
 <?php
-echo "<h2>Your Values:</h2>";
-echo $user;
-echo "<br>";
-echo $apikey;
-echo "<br>";
-echo $apiurl;
-echo "<br>"; 
-//echo $api; // Commented this out, seems redundant when the stuff below shows it as well
-?>
-
-<?php
-if ($api == "getclients") {
-    
-    $url = "$apiurl";
-    
-    $postfields = array();
-    $postfields["username"] = $user;
-    $postfields["password"] = md5($pass);
-    $postfields["accesskey"] = $apikey;
-    $postfields["action"] = "getclients";
-    $postfields["responsetype"] = "xml";
-
-    $query_string = "";
-    foreach ($postfields as $k=>$v) $query_string .= "$k=".urlencode($v)."&";
-}
-
-if ($api == "getadmindetails") {
-    
-    $url = "$apiurl";
-    
-    $postfields = array();
-    $postfields["username"] = $user;
-    $postfields["password"] = md5($pass);
-    $postfields["accesskey"] = $apikey;
-    $postfields["action"] = "getadmindetails";
-    $postfields["responsetype"] = "xml";
-
-    $query_string = "";
-    foreach ($postfields as $k=>$v) $query_string .= "$k".urlencode($v)."&";
-}
-
-if ($api == "addclient") {
-    
-    $url = "$apiurl";
-    
-    $postfields = array();
-    $postfields["username"] = $user;
-    $postfields["password"] = md5($pass);
-    $postfields["accesskey"] = $apikey;
-    $postfields["action"] = "addclient";
-    $postfields["firstname"] = "$clientfn";
-    $postfields["lastname"] = "$clientln";
-    $postfields["email"] = "$clientemail";
-    $postfields["address1"] = "$address1";
-    $postfields["city"] = "$city";
-    $postfields["state"] = "$state";
-    $postfields["postcode"] = "$postcode";
-    $postfields["country"] = "$country";
-    $postfields["phonenumber"] = "$phonenumber";
-    $postfields["password2"] = "$password2";
-    $postfields["currency"] = "1"; // adding this manually as everyone should be on the base currency
-    $postfields["responsetype"] = "xml";
-
-    $query_string = "";
-    foreach ($postfields as $k=>$v) $query_string .="$k".urlencode($v)."&";
-}
-
+$url = $apiurl;
 if($url) {
     #Only try curl when URL is submitted
+    echo "<h2>Your Values:</h2>";
+    echo $user;
+    echo "<br>";
+    echo $apikey;
+    echo "<br>";
+    echo $apiurl;
+    echo "<br>"; 
+    //echo $api; // Commented this out, seems redundant when the stuff below shows it as well
+    $postfields = array();
+    $postfields["username"] = $user;
+    $postfields["password"] = md5($pass);
+    if($apikey) $postfields["accesskey"] = $apikey;
+    $postfields["responsetype"] = "json"; #Valid options are json or xml. json recommended.
+    if ($api == "getclients") $postfields["action"] = "getclients";
+    elseif ($api == "getadmindetails") $postfields["action"] = "getadmindetails";
+    elseif ($api == "addclient") {
+        $postfields["action"] = "addclient";
+        $postfields["firstname"] = "$clientfn";
+        $postfields["lastname"] = "$clientln";
+        $postfields["email"] = "$clientemail";
+        $postfields["address1"] = "$address1";
+        $postfields["city"] = "$city";
+        $postfields["state"] = "$state";
+        $postfields["postcode"] = "$postcode";
+        $postfields["country"] = "$country";
+        $postfields["phonenumber"] = "$phonenumber";
+        $postfields["password2"] = "$password2";
+        $postfields["currency"] = "1"; // adding this manually as everyone should be on the base currency
+    }
+    $query_string = "";
+    foreach ($postfields as $k=>$v) $query_string .= "$k=".urlencode($v)."&";
+
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_POST, 1);
@@ -214,19 +181,26 @@ if($url) {
     curl_setopt($ch, CURLOPT_POSTFIELDS, $query_string);
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-    $xml = curl_exec($ch);
-    if (curl_error($ch) || !$xml) $xml = '<whmcsapi><result>error</result>'.
-     '<message>Connection Error</message><curlerror>'.
-    curl_errno($ch).' - '.curl_error($ch).'</curlerror></whmcsapi>';
+    $data = curl_exec($ch);
+    if(curl_error($ch)){
+        $error = curl_errno($ch).' - '.curl_error($ch);
+    }
+    if($postfields["responsetype"]=="xml"){
+        if($error){
+            $xml = '<whmcsapi><result>error</result>'.
+     '<message>Connection Error</message><curlerror>'.$error.'</curlerror></whmcsapi>';
+        }
+        $arr = whmcsapi_xml_parser($data); # Parse XML
+    }elseif($postfields["responsetype"]=="json"){
+        if($error) $arr = array("error" => "A connection error occurred: $error");
+        else $arr = json_decode($data,true);
+    }else $arr = array("error" => "Unsupported responsetype");
     curl_close($ch);
     
-    $arr = whmcsapi_xml_parser($xml); # Parse XML
+    echo "<textarea rows=50 cols=100>Request: $url\n\n".print_r($postfields,true);
+    echo "\nResponse: ".htmlentities($data). "\n\nArray: ".print_r($arr,true);
+    echo "</textarea>";
 }
- print_r($arr); # Output XML Response as Array
-
- echo "<textarea rows=50 cols=100>Request: $url\n\n".print_r($postfields,true);
- echo "\nResponse: ".htmlentities($xml). "\n\nArray: ".print_r($arr,true);
- echo "</textarea>";
 
 function whmcsapi_xml_parser($rawxml) {
      $xml_parser = xml_parser_create();
@@ -261,3 +235,4 @@ function whmcsapi_xml_parser($rawxml) {
 ?>
 
 </body>
+</html>
