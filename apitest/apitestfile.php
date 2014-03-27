@@ -9,16 +9,24 @@
             
             $('#clientfields').hide();
             $('#clientproductfields').hide();
+            $('#productfields').hide();
             $(document).on("change","#api",function() {
                 if ($("#api").val() == "addclient"){
                     $('#clientfields').show();
                     $('#clientproductfields').hide();
+                    $('#productfields').hide();
                 } else if ($("#api").val() == "getclientsproducts"){
                     $('#clientfields').hide();
                     $('#clientproductfields').show();
+                    $('#productfields').hide();
+                } else if ($("#api").val() == "getproducts"){
+                    $('#clientfields').hide();
+                    $('#clientproductfields').hide();
+                    $('#productfields').show();
                 } else {
                     $('#clientfields').hide();
                     $('#clientproductfields').hide();
+                    $('#productfields').hide();
                 }
             });
         });
@@ -95,6 +103,7 @@ foreach ($_REQUEST as $k=>$v) $$k = $v;
             <option value = "getadmindetails">Get Admin Details</option>
             <option value = "getclients">Get Clients</option>
             <option value = "getclientsproducts">Get Clients Products</option>
+            <option value = "getproducts">Get Products</option>
         </select>
     </div>
     <div id="clientfields">
@@ -130,6 +139,16 @@ foreach ($_REQUEST as $k=>$v) $$k = $v;
     </div>
     <div id="clientproductfields">
         <p>Stuff here: <input type="text" name="stuff"></p>
+    </div>
+    <div id="productfields">
+        <label class="pid">Product ID: </label>
+        <input type="text" name="pid" class="pid">
+        <!--<br>
+        <label class="gid">Group ID: </label>
+        <input type="text" name="gid" class="gid">
+        <br>
+        <label class="moduletype">Module Type: </label>
+        <input type="text" name="module" class="module">-->
     </div>
     <br><br>
     <!-- These are the additional fields for addclient API call -->
@@ -169,6 +188,10 @@ if($url) {
         $postfields["phonenumber"] = "$phonenumber";
         $postfields["password2"] = "$password2";
         $postfields["currency"] = "1"; // adding this manually as everyone should be on the base currency
+    }
+    elseif ($api == "getproducts") {
+        $postfields["action"] = "getproducts";
+        $postfields["pid"] = "$pid";
     }
     $query_string = "";
     foreach ($postfields as $k=>$v) $query_string .= "$k=".urlencode($v)."&";
