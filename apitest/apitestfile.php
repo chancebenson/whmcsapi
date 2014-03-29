@@ -200,7 +200,7 @@ if($url) {
     }
     elseif ($api == "getclientsproducts") {
         $postfields["action"] = "getclientsproducts";
-        $postfields["clientid"] = "$clientid"
+        $postfields["clientid"] = "$clientid";
     }
     $query_string = "";
     foreach ($postfields as $k=>$v) $query_string .= "$k=".urlencode($v)."&";
