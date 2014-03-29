@@ -54,7 +54,7 @@ if(file_exists("init.php")) {
 /* */
 
 // define vars and set to empty values
-$userErr = $passErr = $apiurlErr = "";
+$userErr = $passErr = $apiurlErr = $responseErr = "";
 $user = $pass = $apikey = "";
 $error = "";
 
@@ -68,6 +68,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     else $apiurl = (($_POST["apiurltype"]=="https") ? "https://" : "http://") .test_input ($_POST["apiurl"]);
     if (empty($_POST["api"])) $api = "";
     else $api = test_input ($_POST["api"]);
+    if (empty($_POST["responsetype"])) $responseErr = "json or xml...json recommended";
+    else $responsetype = test_input ($_POST["responsetype"]);
 }
 
 function test_input($data) {
@@ -95,6 +97,13 @@ foreach ($_REQUEST as $k=>$v) $$k = $v;
         <option value = "http">http://</option></select><input type="text" name="apiurl">
     <span class="error">* <?php echo $apiurlErr;?></span>
     <br><br>
+    <div class="responsetype">
+        <label class="responsetype">Response Type: </label>
+        <select id="responsetype" name="responsetype">
+            <option value = "json" selected>JSON **Recommended**</option>
+            <option value = "xml">XML</option>
+        </select>
+    </div>
     <div class="apicall">
         <label class="apicall">API CALL: </label>
         <select id="api" name="api"> <!-- Make sure to keep them alphabetic just cause lol -->
@@ -106,6 +115,7 @@ foreach ($_REQUEST as $k=>$v) $$k = $v;
             <option value = "getproducts">Get Products</option>
         </select>
     </div>
+<!-- These are the additional fields for API calls -->
     <div id="clientfields">
         <label class="clientfn">Client First Name: </label>
         <input type="text" name="clientfn" class="clientfn">
@@ -138,21 +148,16 @@ foreach ($_REQUEST as $k=>$v) $$k = $v;
         <input type="text" name="password2" class="password2">
     </div>
     <div id="clientproductfields">
-        <p>Stuff here: <input type="text" name="stuff"></p>
+        <label class="clientid">Client ID: </label>
+        <input type="text" name="clientid" class="clientid">
     </div>
     <div id="productfields">
-        <label class="pid">Product ID: </label>
-        <input type="text" name="pid" class="pid">
-        <!--<br>
-        <label class="gid">Group ID: </label>
-        <input type="text" name="gid" class="gid">
-        <br>
-        <label class="moduletype">Module Type: </label>
-        <input type="text" name="module" class="module">-->
+        <h3>***You can input PID, GID or Module***</h3>
+        <label class="idtype">ID Type: </label>
+        <input type="text" name="idtype" class="idtype">
     </div>
     <br><br>
-    <!-- These are the additional fields for addclient API call -->
-    
+        
     <input type="submit" name="submit" value="Test The API">
 </form>
 
@@ -172,7 +177,7 @@ if($url) {
     $postfields["username"] = $user;
     $postfields["password"] = md5($pass);
     if($apikey) $postfields["accesskey"] = $apikey;
-    $postfields["responsetype"] = "json"; #Valid options are json or xml. json recommended.
+    $postfields["responsetype"] = "$responsetype"; #Valid options are json or xml. json recommended.
     if ($api == "getclients") $postfields["action"] = "getclients";
     elseif ($api == "getadmindetails") $postfields["action"] = "getadmindetails";
     elseif ($api == "addclient") {
@@ -191,7 +196,11 @@ if($url) {
     }
     elseif ($api == "getproducts") {
         $postfields["action"] = "getproducts";
-        $postfields["pid"] = "$pid";
+        $postfields["pid"] = "$idtype";
+    }
+    elseif ($api == "getclientsproducts") {
+        $postfields["action"] = "getclientsproducts";
+        $postfields["clientid"] = "$clientid"
     }
     $query_string = "";
     foreach ($postfields as $k=>$v) $query_string .= "$k=".urlencode($v)."&";
