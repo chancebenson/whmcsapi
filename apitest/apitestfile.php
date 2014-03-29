@@ -152,7 +152,7 @@ foreach ($_REQUEST as $k=>$v) $$k = $v;
         <input type="text" name="clientid" class="clientid">
     </div>
     <div id="productfields">
-        <h3>***You can input PID, GID or Module***</h3>
+        <h3>***You can input PID only at this time...***</h3>
         <label class="idtype">ID Type: </label>
         <input type="text" name="idtype" class="idtype">
     </div>
