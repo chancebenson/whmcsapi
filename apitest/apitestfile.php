@@ -9,24 +9,24 @@
             
             $('#clientfields').hide();
             $('#clientproductfields').hide();
-            $('#productfields').hide();
+            $('#idfields').hide();
             $(document).on("change","#api",function() {
                 if ($("#api").val() == "addclient"){
                     $('#clientfields').show();
                     $('#clientproductfields').hide();
-                    $('#productfields').hide();
+                    $('#idfields').hide();
                 } else if ($("#api").val() == "getclientsproducts"){
                     $('#clientfields').hide();
                     $('#clientproductfields').show();
-                    $('#productfields').hide();
+                    $('#idfields').hide();
                 } else if ($("#api").val() == "getproducts"){
                     $('#clientfields').hide();
                     $('#clientproductfields').hide();
-                    $('#productfields').show();
+                    $('#idfields').show();
                 } else {
                     $('#clientfields').hide();
                     $('#clientproductfields').hide();
-                    $('#productfields').hide();
+                    $('#idfields').hide();
                 }
             });
         });
@@ -151,8 +151,8 @@ foreach ($_REQUEST as $k=>$v) $$k = $v;
         <label class="clientid">Client ID: </label>
         <input type="text" name="clientid" class="clientid">
     </div>
-    <div id="productfields">
-        <h3>***You can input PID only at this time...***</h3>
+    <div id="idfields">
+        <h3>***Input is numerical value type...***</h3>
         <label class="idtype">ID Type: </label>
         <input type="text" name="idtype" class="idtype">
     </div>
@@ -201,6 +201,10 @@ if($url) {
     elseif ($api == "getclientsproducts") {
         $postfields["action"] = "getclientsproducts";
         $postfields["clientid"] = "$clientid";
+    }
+    elseif ($api == "getinvoice") {
+        $postfields["action"] = "getinvoice";
+        $postfields["invoiceid"] = "$idtype";
     }
     $query_string = "";
     foreach ($postfields as $k=>$v) $query_string .= "$k=".urlencode($v)."&";
