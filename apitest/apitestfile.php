@@ -113,6 +113,7 @@ foreach ($_REQUEST as $k=>$v) $$k = $v;
             <option value = "getclients">Get Clients</option>
             <option value = "getclientsproducts">Get Clients Products</option>
             <option value = "getproducts">Get Products</option>
+            <option value = "getinvoice">Get Invoice</option>
         </select>
     </div>
 <!-- These are the additional fields for API calls -->
