@@ -34,7 +34,7 @@
                     $('#updateclient').hide();
                 } else if ($("#api").val() == "updateclient"){
                     $('#clientfields').hide();
-                    $('#clientproductfields').hide();
+                    $('#clientproductfields').show();
                     $('#idfields').hide();
                     $('#updateclient').show();
                 } else {
@@ -176,8 +176,8 @@ foreach ($_REQUEST as $k=>$v) $$k = $v;
     </div>
     <div id="updateclient">
         <h3>Input the action and the value...</h3>
-        <label class="action">Action: </label>
-        <input type="text" name="action" class="action">
+        <label class="attribute">Attribute: </label>
+        <input type="text" name="attribute" class="attribute">
         <br>
         <label class="value">Value: </label>
         <input type="text" name="value" class="value">
@@ -234,7 +234,8 @@ if($url) {
     }
     elseif ($api == "updateclient") {
         $postfields["action"] = "updateclient";
-        $postfields["$action"] = "$value";
+        $postfields["clientid"] = "$clientid";
+        $postfields["$attribute"] = "$value";
     }
     $query_string = "";
     foreach ($postfields as $k=>$v) $query_string .= "$k=".urlencode($v)."&";
