@@ -8,38 +8,43 @@
         $(document).ready(function() {
             
             $('#clientfields').hide();
-            $('#clientproductfields').hide();
+            $('#clientfieldsid').hide();
             $('#idfields').hide();
             $('#updateclient').hide();
             $(document).on("change","#api",function() {
                 if ($("#api").val() == "addclient"){
                     $('#clientfields').show();
-                    $('#clientproductfields').hide();
+                    $('#clientfieldsid').hide();
                     $('#idfields').hide();
                     $('#updateclient').hide();
                 } else if ($("#api").val() == "getclientsproducts"){
                     $('#clientfields').hide();
-                    $('#clientproductfields').show();
+                    $('#clientfieldsid').show();
                     $('#idfields').hide();
                     $('#updateclient').hide();
                 } else if ($("#api").val() == "getproducts"){
                     $('#clientfields').hide();
-                    $('#clientproductfields').hide();
+                    $('#clientfieldsid').hide();
                     $('#idfields').show();
                     $('#updateclient').hide();
                 } else if ($("#api").val() == "getinvoice"){
                     $('#clientfields').hide();
-                    $('#clientproductfields').hide();
+                    $('#clientfieldsid').hide();
                     $('#idfields').show();
                     $('#updateclient').hide();
                 } else if ($("#api").val() == "updateclient"){
                     $('#clientfields').hide();
-                    $('#clientproductfields').show();
+                    $('#clientfieldsid').show();
                     $('#idfields').hide();
                     $('#updateclient').show();
+                } else if ($("#api").val() == "getclientsdetails"){
+                    $('#clientfields').hide();
+                    $('#clientfieldsid').show();
+                    $('#idfields').hide();
+                    $('#updateclient').hide();
                 } else {
                     $('#clientfields').hide();
-                    $('#clientproductfields').hide();
+                    $('#clientfieldsid').hide();
                     $('#idfields').hide();
                     $('#updateclient').hide();
                 }
@@ -127,6 +132,7 @@ foreach ($_REQUEST as $k=>$v) $$k = $v;
             <option value = "addclient">Add Client</option>
             <option value = "updateclient">Update Client</option>
             <option value = "getclients">Get Clients</option>
+            <option value = "getclientsdetails">Get Clients Details</option>
             <option value = "getclientsproducts">Get Clients Products</option>
             <option value = "getadmindetails">Get Admin Details</option>
             <option value = "getproducts">Get Products</option>
@@ -165,7 +171,7 @@ foreach ($_REQUEST as $k=>$v) $$k = $v;
         <label class="password2">Password: </label>
         <input type="text" name="password2" class="password2">
     </div>
-    <div id="clientproductfields">
+    <div id="clientfieldsid">
         <label class="clientid">Client ID: </label>
         <input type="text" name="clientid" class="clientid">
     </div>
@@ -236,6 +242,10 @@ if($url) {
         $postfields["action"] = "updateclient";
         $postfields["clientid"] = "$clientid";
         $postfields["$attribute"] = "$value";
+    }
+    elseif ($api == "getclientsdetails") {
+        $postfields["action"] = "getclientsdetails"
+        $postfields["clientid"] = "$clientid";
     }
     $query_string = "";
     foreach ($postfields as $k=>$v) $query_string .= "$k=".urlencode($v)."&";
