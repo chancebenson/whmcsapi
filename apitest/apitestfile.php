@@ -244,7 +244,7 @@ if($url) {
         $postfields["$attribute"] = "$value";
     }
     elseif ($api == "getclientsdetails") {
-        $postfields["action"] = "getclientsdetails"
+        $postfields["action"] = "getclientsdetails";
         $postfields["clientid"] = "$clientid";
     }
     $query_string = "";
