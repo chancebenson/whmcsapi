@@ -139,6 +139,7 @@ foreach ($_REQUEST as $k=>$v) $$k = $v;
             <option value = "getinvoice">Get Invoice</option>
         </select>
     </div>
+    <br>
 <!-- These are the additional fields for API calls -->
     <div id="clientfields">
         <label class="clientfn">Client First Name: </label>
@@ -172,6 +173,7 @@ foreach ($_REQUEST as $k=>$v) $$k = $v;
         <input type="text" name="password2" class="password2">
     </div>
     <div id="clientfieldsid">
+        <h3>If testing Get Clients Details...Use XML as your response type to show stats for client.</h3>
         <label class="clientid">Client ID: </label>
         <input type="text" name="clientid" class="clientid">
     </div>
