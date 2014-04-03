@@ -10,23 +10,38 @@
             $('#clientfields').hide();
             $('#clientproductfields').hide();
             $('#idfields').hide();
+            $('#updateclient').hide();
             $(document).on("change","#api",function() {
                 if ($("#api").val() == "addclient"){
                     $('#clientfields').show();
                     $('#clientproductfields').hide();
                     $('#idfields').hide();
+                    $('#updateclient').hide();
                 } else if ($("#api").val() == "getclientsproducts"){
                     $('#clientfields').hide();
                     $('#clientproductfields').show();
                     $('#idfields').hide();
+                    $('#updateclient').hide();
                 } else if ($("#api").val() == "getproducts"){
                     $('#clientfields').hide();
                     $('#clientproductfields').hide();
                     $('#idfields').show();
+                    $('#updateclient').hide();
+                } else if ($("#api").val() == "getinvoice"){
+                    $('#clientfields').hide();
+                    $('#clientproductfields').hide();
+                    $('#idfields').show();
+                    $('#updateclient').hide();
+                } else if ($("#api").val() == "updateclient"){
+                    $('#clientfields').hide();
+                    $('#clientproductfields').hide();
+                    $('#idfields').hide();
+                    $('#updateclient').show();
                 } else {
                     $('#clientfields').hide();
                     $('#clientproductfields').hide();
                     $('#idfields').hide();
+                    $('#updateclient').hide();
                 }
             });
         });
@@ -104,14 +119,16 @@ foreach ($_REQUEST as $k=>$v) $$k = $v;
             <option value = "xml">XML</option>
         </select>
     </div>
+    <br>
     <div class="apicall">
         <label class="apicall">API CALL: </label>
         <select id="api" name="api"> <!-- Make sure to keep them alphabetic just cause lol -->
             <option value = "none" selected>-- Select A Call --</option>
             <option value = "addclient">Add Client</option>
-            <option value = "getadmindetails">Get Admin Details</option>
+            <option value = "updateclient">Update Client</option>
             <option value = "getclients">Get Clients</option>
             <option value = "getclientsproducts">Get Clients Products</option>
+            <option value = "getadmindetails">Get Admin Details</option>
             <option value = "getproducts">Get Products</option>
             <option value = "getinvoice">Get Invoice</option>
         </select>
@@ -156,6 +173,14 @@ foreach ($_REQUEST as $k=>$v) $$k = $v;
         <h3>***Input is numerical value type...***</h3>
         <label class="idtype">ID Type: </label>
         <input type="text" name="idtype" class="idtype">
+    </div>
+    <div id="updateclient">
+        <h3>Input the action and the value...</h3>
+        <label class="action">Action: </label>
+        <input type="text" name="action" class="action">
+        <br>
+        <label class="value">Value: </label>
+        <input type="text" name="value" class="value">
     </div>
     <br><br>
         
@@ -206,6 +231,10 @@ if($url) {
     elseif ($api == "getinvoice") {
         $postfields["action"] = "getinvoice";
         $postfields["invoiceid"] = "$idtype";
+    }
+    elseif ($api == "updateclient") {
+        $postfields["action"] = "updateclient";
+        $postfields["$action"] = "$value";
     }
     $query_string = "";
     foreach ($postfields as $k=>$v) $query_string .= "$k=".urlencode($v)."&";
