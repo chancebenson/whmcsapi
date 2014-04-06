@@ -10,23 +10,33 @@
             $('#clientfields').hide();
             $('#clientproductfields').hide();
             $('#productfields').hide();
+            $('#whoisinfo').hide();
             $(document).on("change","#api",function() {
                 if ($("#api").val() == "addclient"){
                     $('#clientfields').show();
                     $('#clientproductfields').hide();
                     $('#productfields').hide();
+                    $('#whoisinfo').hide();
                 } else if ($("#api").val() == "getclientsproducts"){
                     $('#clientfields').hide();
                     $('#clientproductfields').show();
                     $('#productfields').hide();
+                    $('#whoisinfo').hide();
                 } else if ($("#api").val() == "getproducts"){
                     $('#clientfields').hide();
                     $('#clientproductfields').hide();
                     $('#productfields').show();
+                    $('#whoisinfo').hide();
+                } else if ($("#api").val()  == "domainwhois"){
+                	$('#clientfields').hide();
+                    $('#clientproductfields').hide();
+                    $('#productfields').hide();
+                    $('#whoisinfo').show();
                 } else {
                     $('#clientfields').hide();
                     $('#clientproductfields').hide();
                     $('#productfields').hide();
+                    $('#whoisinfo').hide();
                 }
             });
         });
@@ -113,6 +123,7 @@ foreach ($_REQUEST as $k=>$v) $$k = $v;
             <option value = "getclients">Get Clients</option>
             <option value = "getclientsproducts">Get Clients Products</option>
             <option value = "getproducts">Get Products</option>
+            <option value = "domainwhois">WHOIS</option>
         </select>
     </div>
 <!-- These are the additional fields for API calls -->
@@ -155,6 +166,10 @@ foreach ($_REQUEST as $k=>$v) $$k = $v;
         <h3>***You can input PID only at this time...***</h3>
         <label class="idtype">ID Type: </label>
         <input type="text" name="idtype" class="idtype">
+    </div>
+    <div id="whoisinfo">
+    	<label class="whois">WHOIS: </label>
+    	<input type="text" name="whois" class="whois">
     </div>
     <br><br>
         
@@ -201,6 +216,10 @@ if($url) {
     elseif ($api == "getclientsproducts") {
         $postfields["action"] = "getclientsproducts";
         $postfields["clientid"] = "$clientid";
+    }
+    elseif ($api == "domainwhois") {
+    	$postfields["action"] = "domainwhois";
+    	$postfields["domain"] = "$whois";
     }
     $query_string = "";
     foreach ($postfields as $k=>$v) $query_string .= "$k=".urlencode($v)."&";
