@@ -11,42 +11,56 @@
             $('#clientfieldsid').hide();
             $('#idfields').hide();
             $('#updateclient').hide();
+            $('#whoisinfo').hide();
             $(document).on("change","#api",function() {
                 if ($("#api").val() == "addclient"){
                     $('#clientfields').show();
                     $('#clientfieldsid').hide();
                     $('#idfields').hide();
                     $('#updateclient').hide();
+                    $('#whoisinfo').hide();
                 } else if ($("#api").val() == "getclientsproducts"){
                     $('#clientfields').hide();
                     $('#clientfieldsid').show();
                     $('#idfields').hide();
                     $('#updateclient').hide();
+                    $('#whoisinfo').hide();
                 } else if ($("#api").val() == "getproducts"){
                     $('#clientfields').hide();
                     $('#clientfieldsid').hide();
                     $('#idfields').show();
                     $('#updateclient').hide();
+                    $('#whoisinfo').hide();
                 } else if ($("#api").val() == "getinvoice"){
                     $('#clientfields').hide();
                     $('#clientfieldsid').hide();
                     $('#idfields').show();
                     $('#updateclient').hide();
+                    $('#whoisinfo').hide();
                 } else if ($("#api").val() == "updateclient"){
                     $('#clientfields').hide();
                     $('#clientfieldsid').show();
                     $('#idfields').hide();
                     $('#updateclient').show();
+                    $('#whoisinfo').hide();
                 } else if ($("#api").val() == "getclientsdetails"){
                     $('#clientfields').hide();
                     $('#clientfieldsid').show();
                     $('#idfields').hide();
                     $('#updateclient').hide();
+                    $('#whoisinfo').hide();
+                } else if ($("#api").val() == "domainwhois"){
+                    $('#clientfields').hide();
+                    $('#clientfieldsid').hide();
+                    $('#idfields').hide();
+                    $('#updateclient').hide();
+                    $('#whoisinfo').show();
                 } else {
                     $('#clientfields').hide();
                     $('#clientfieldsid').hide();
                     $('#idfields').hide();
                     $('#updateclient').hide();
+                    $('#whoisinfo').hide();
                 }
             });
         });
@@ -137,6 +151,7 @@ foreach ($_REQUEST as $k=>$v) $$k = $v;
             <option value = "getadmindetails">Get Admin Details</option>
             <option value = "getproducts">Get Products</option>
             <option value = "getinvoice">Get Invoice</option>
+            <option value = "domainwhois">WHOIS</option>
         </select>
     </div>
     <br>
@@ -189,6 +204,10 @@ foreach ($_REQUEST as $k=>$v) $$k = $v;
         <br>
         <label class="value">Value: </label>
         <input type="text" name="value" class="value">
+    </div>
+    <div id="whoisinfo">
+        <label class="whois">WHOIS: </label>
+        <input type="text" name="whois" class="whois">
     </div>
     <br><br>
         
@@ -248,6 +267,10 @@ if($url) {
     elseif ($api == "getclientsdetails") {
         $postfields["action"] = "getclientsdetails";
         $postfields["clientid"] = "$clientid";
+    }
+    elseif ($api == "domainwhois") {
+        $postfields["action"] = "domainwhois";
+        $postfields["domain"] = "$whois";
     }
     $query_string = "";
     foreach ($postfields as $k=>$v) $query_string .= "$k=".urlencode($v)."&";
