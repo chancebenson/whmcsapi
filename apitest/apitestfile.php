@@ -153,6 +153,7 @@ foreach ($_REQUEST as $k=>$v) $$k = $v;
             <option value = "getinvoice">Get Invoice</option>
             <option value = "domainwhois">WHOIS</option>
             <option value = "getactivitylog">Activity Log</option>
+            <option value = "gettickets">Get Tickets</option>
         </select>
     </div>
     <br>
@@ -275,6 +276,9 @@ if($url) {
     }
     elseif ($api == "getactivitylog") {
         $postfields["action"] = "getactivitylog";
+    }
+    elseif ($api == "gettickets") {
+        $postfields["action"] = "gettickets";
     }
     $query_string = "";
     foreach ($postfields as $k=>$v) $query_string .= "$k=".urlencode($v)."&";
